@@ -4,7 +4,7 @@ const game = () => {
     let blockSize = 25;
     let col = 16;
     let row = col;
-    let board, context;
+    let board;
 
     // Set up game while window loads
     window.onload = function () {
@@ -12,7 +12,6 @@ const game = () => {
         board = document.getElementById("board");
         board.height = row * blockSize;
         board.width = col * blockSize;
-        context = board.getContext("2d");
 
         // Create and append div elements to board as blocks
         for (let i = 0; i < 256; i++) {
@@ -44,17 +43,56 @@ const game = () => {
     let apple = [foodX, foodY];
 
     function generateFood() {
+        // Create food element with class of food
+        let food = document.createElement("div");
+        food.className = "food"; 
+        food.style.height = `${blockSize}px`;
+        food.style.width = `${blockSize}px`;
+        food.style.backgroundColor = "#fc5d8d";
+        board.appendChild(food);
+    
+        // Generate random coordinates for food
         foodX = Math.floor(Math.random() * col) * blockSize;
         foodY = Math.floor(Math.random() * row) * blockSize;
+    
+        // Position food
+        food.style.position = "fixed";
+        food.style.top = `${foodY}px`;
+        food.style.left = `${foodX}px`;
+    
+        // Return food
         return apple;
     }
 
-    // Update game
-    function update() {
-        // Set food color and position
-        let appleColor = "#fc5d8d";
+    // Moving snake
+    let x, y;
 
+    function changeDirection(key) {
+        switch(key) {
+            case "ArrowUp" && "W":
+                x = 0;
+                y -= 1;
+                break;
+            
+            case "ArrowDown" && "S":
+                x = 0;
+                y += 1;
+                break;
+            
+            case "ArrowRight" && "D":
+                x += 1;
+                y = 0;
+                break;
+
+            case "ArrowLeft" && "A":
+                x -= 1;
+                y = 0;
+                break;
+        }
     }
+
+    // Update game
+    function update(){}
 };
 
 game();
