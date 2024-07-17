@@ -11,22 +11,31 @@
     font-style: normal;
 }
 
-body {
+h1 {
+    text-align: center;
+    padding-top: 10px;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100vw;
-    height: 100vh;
+    height: 85vh;
 }
 
-#board {
+#backgound-container {
     display: grid;
-    grid-template: repeat(16, 1fr) / repeat(16, 1fr); 
+    grid-template: repeat(16, 1fr) / repeat(16, 1fr);
     gap: 1px;
     background-color: #000000;
-    border: 1px #000000 solid;
+    border: 2px #000000 solid;
 }
 
-#board > div {
-    background-color: white;
+#background-container > div {
+    width: 25px;
+    height: 25px;
+    background-color: #bafccd;
 }
