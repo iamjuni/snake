@@ -123,7 +123,7 @@ function update() {
     snakeHead.style.top = `${snakeY}px`;
     snakeHead.style.left = `${snakeX}px`;
 
-    // Eat food and add segments to snake body
+    // Grow snake by eating food and adding segments
     if (snakeX == foodX && snakeY == foodY) {
         const segment = document.createElement("div");
         segment.className = "snake";
