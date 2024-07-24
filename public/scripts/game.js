@@ -4,41 +4,35 @@ let blockSize = 25;
 let col = 16;
 let row = col;
 
-// Access board and style elements
+// Access board element
 let board = document.getElementById("board");
-let style = document.querySelector("style");
 
 // Snake
 let snakeX = blockSize * 5;
 let snakeY = blockSize * 5;
-let snake;
+let snakeBody = [{ x: snakeX, y: snakeY }];
+let segment;
 
 //Generate snake
 const snakeHead = document.createElement("div");
 snakeHead.id = "snake-head";
-snake = snakeHead.className = "snake";
-
-snakeHead.style.backgroundColor = "#49bdfc";
+snakeHead.className = "snake";
 
 // Snake size
 snakeHead.style.height = `${blockSize}px`;
 snakeHead.style.width = `${blockSize}px`;
 board.appendChild(snakeHead);
 
-// Snake position
-snakeHead.style.position = "absolute";
-
 // Food
 const food = document.createElement("div");
+food.id = "food";
+
 let foodX, foodY;
 
 function generateFood() {
-    food.className = "apple";
-
     // Specify food height and width
     food.style.height = `${blockSize}px`;
     food.style.width = `${blockSize}px`;
-    food.style.backgroundColor = "#fc5d8d";
     board.appendChild(food);
 
     // Generate random coordinates for food
@@ -46,7 +40,6 @@ function generateFood() {
     foodY = Math.floor(Math.random() * row) * blockSize;
 
     // Position food
-    food.style.position = "relative";
     food.style.top = `${foodY}px`;
     food.style.left = `${foodX}px`;
 
@@ -83,11 +76,13 @@ function changeDirection(e) {
 // Set up game after window object loads
 window.onload = function () {
     let height = row * blockSize;
+    board.style.height = `${height}px`;
+
     let width = col * blockSize;
-    let size = `#board { \n height: ${height}px; \n width: ${width}px;}`;
-    style.append(size);
+    board.style.width = `${width}px`;
 
     generateFood();
+
     document.addEventListener("keydown", changeDirection); // Moving snake
     setInterval(update, 1000 / 10); // Snake speed
 };
@@ -96,9 +91,34 @@ window.onload = function () {
 function update() {
     // Game over
     let gameOver = false;
-    if (gameOver == true) {
-        return;
+
+    function endGame() {
+        if (
+            snakeX < 0 ||
+            snakeX > board.width ||
+            snakeY < 0 ||
+            snakeY > board.height
+        ) {
+            gameOver = true;
+        }
+
+        for (let i = snakeBody.length; i > snakeBody.length; i++) {
+            if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
+                gameOver = true;
+            }
+        }
+
+        if (gameOver == true) {
+            gameOver = false;
+            alert("g");
+        }
     }
+
+    endGame();
+
+    // Save previous position of snake head for snake body
+    let segmentX = snakeX;
+    let segmentY = snakeY;
 
     // Snake movement
     switch (direction) {
@@ -119,30 +139,46 @@ function update() {
             break;
     }
 
-    // Reposition snake
+    // Update snake after body moves
     snakeHead.style.top = `${snakeY}px`;
     snakeHead.style.left = `${snakeX}px`;
 
-    // Grow snake by eating food and adding segments
-    if (snakeX == foodX && snakeY == foodY) {
-        const segment = document.createElement("div");
-        segment.className = "snake";
-        segment.style.backgroundColor = snakeHead.style.backgroundColor;
+    function grow() {
+        // Grow snake by eating food and adding segments
+        if (snakeX == foodX && snakeY == foodY) {
+            segment = document.createElement("div");
+            segment.className = "snake";
 
-        // Snake block size
-        segment.style.height = snakeHead.style.height;
-        segment.style.width = snakeHead.style.width;
+            // Snake block size
+            segment.style.height = snakeHead.style.height;
+            segment.style.width = snakeHead.style.width;
 
-        // Add new segment to snake body
-        board.appendChild(segment);
+            // Add new segment to snake body
+            board.appendChild(segment);
+            snakeBody.push({ x: segmentX, y: segmentY });
 
-        // Snake segment postion
-        segment.style.position = "absolute";
-        segment.style.top = `${snakeY}px`;
-        segment.style.left = `${snakeX}px`;
+            // Generate food
+            generateFood();
+        }
+    }
 
-        // Generate food
-        generateFood();       
+    grow();
+
+    // Move snake body
+    for (let i = snakeBody.length - 1; i > 0; i--) {
+        snakeBody[i].x = snakeBody[i - 1].x;
+        snakeBody[i].y = snakeBody[i - 1].y;
+    }
+
+    if (snakeBody.length > 0) {
+        snakeBody[1].x = segmentX;
+        snakeBody[1].y = segmentY;
+    }
+
+    for (let i = 1; i < snakeBody.length; i++) {
+        let segment = document.getElementsByClassName("snake")[i];
+        segment.style.top = `${snakeBody[i].y}px`;
+        segment.style.left = `${snakeBody[i].x}px`;
     }
 }
 
