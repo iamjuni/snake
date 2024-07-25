@@ -15,6 +15,7 @@
 #board {
     position: absolute;
     background-color: #bafccd;
+    border: 2px solid #000000;
 }
 
 /* Board items */
@@ -33,6 +34,6 @@
 }
 
 /* Borders */
-#board, .snake, #food, #snake-head {
-    border: 2px solid #000000;
+.snake, #food, #snake-head {
+    border: 1px solid #000000;
 }
