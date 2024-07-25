@@ -4,8 +4,8 @@ let blockSize = 25;
 let col = 16;
 let row = col;
 
-// Access board element
-let board = document.getElementById("board");
+let board = document.getElementById("board"); // Access board element
+let gameOver;
 
 // Snake
 let snakeX = blockSize * 5;
@@ -90,31 +90,31 @@ window.onload = function () {
 // Update game
 function update() {
     // Game over
-    let gameOver = false;
+    if (gameOver) {
+        return;
+    }
 
-    function endGame() {
-        if (
-            snakeX < 0 ||
-            snakeX > board.width ||
-            snakeY < 0 ||
-            snakeY > board.height
-        ) {
+    // Collisions
+    if (
+        snakeX < 0 ||
+        snakeX >= col * blockSize ||
+        snakeY < 0 ||
+        snakeY >= row * blockSize
+    ) {
+        gameOver = true;
+    }
+
+    // Snake hits itself
+    for (let i = snakeBody.length - 1; i > 0; i--) {
+        if (snakeX == snakeBody[i].x && snakeY == snakeBody[i].y) {
             gameOver = true;
-        }
-
-        for (let i = snakeBody.length; i > snakeBody.length; i++) {
-            if (snakeX == snakeBody[i][0] && snakeY == snakeBody[i][1]) {
-                gameOver = true;
-            }
-        }
-
-        if (gameOver == true) {
-            gameOver = false;
-            alert("g");
+            console.log("Snake hit itself");
         }
     }
 
-    endGame();
+    if (gameOver == true) {
+        alert("Game Over! Refresh page to start over.");
+    }
 
     // Save previous position of snake head for snake body
     let segmentX = snakeX;
@@ -157,7 +157,6 @@ function update() {
             board.appendChild(segment);
             snakeBody.push({ x: segmentX, y: segmentY });
 
-            // Generate food
             generateFood();
         }
     }
