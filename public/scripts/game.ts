@@ -1,82 +1,103 @@
-"use strict";
 // Board variables
-let blockSize = 25;
-let col = 16;
-let row = col;
-let board = document.getElementById("board"); // Access board element
-let gameOver;
+let blockSize: number = 25;
+let col: number = 16;
+let row: number = col;
+
+let board: any = document.getElementById("board"); // Access board element
+let gameOver: boolean;
+
 // Snake
-let snakeX = blockSize * 5;
-let snakeY = blockSize * 5;
+let snakeX: number = blockSize * 5;
+let snakeY: number = blockSize * 5;
 let snakeBody = [{ x: snakeX, y: snakeY }];
-let segment;
+let segment: any;
+
 //Generate snake
 const snakeHead = document.createElement("div");
 snakeHead.id = "snake-head";
 snakeHead.className = "snake";
+
 // Snake size
 snakeHead.style.height = `${blockSize}px`;
 snakeHead.style.width = `${blockSize}px`;
 board.appendChild(snakeHead);
+
 // Food
 const food = document.createElement("div");
 food.id = "food";
-let foodX, foodY;
+
+let foodX: number, foodY: number;
+
 function generateFood() {
     // Specify food height and width
     food.style.height = `${blockSize}px`;
     food.style.width = `${blockSize}px`;
     board.appendChild(food);
+
     // Generate random coordinates for food
     foodX = Math.floor(Math.random() * col) * blockSize;
     foodY = Math.floor(Math.random() * row) * blockSize;
+
     // Position food
     food.style.top = `${foodY}px`;
     food.style.left = `${foodX}px`;
+
     return food;
 }
+
 // Change snake direction
-let direction = "right";
-function changeDirection(e) {
+let direction: string = "right";
+
+function changeDirection(e: any): void {
     switch (e.key) {
         case "ArrowUp":
         case "w":
             direction = "up";
             break;
+
         case "ArrowDown":
         case "s":
             direction = "down";
             break;
+
         case "ArrowRight":
         case "d":
             direction = "right";
             break;
+
         case "ArrowLeft":
         case "a":
             direction = "left";
             break;
     }
 }
+
 // Set up game after window object loads
 window.onload = function () {
-    let height = row * blockSize;
+    let height: number = row * blockSize;
     board.style.height = `${height}px`;
-    let width = col * blockSize;
+
+    let width: number = col * blockSize;
     board.style.width = `${width}px`;
+
     generateFood();
+
     document.addEventListener("keydown", changeDirection); // Moving snake
     setInterval(update, 1000 / 10); // Snake speed
 };
+
 // Update game
-function update() {
+function update(): void {
     // Game over
     if (gameOver) {
         return;
     }
+
     // Collisions
     if (snakeX < 0 || snakeX >= col * blockSize || snakeY < 0 || snakeY >= row * blockSize) {
         gameOver = true;
     }
+
     // Snake hits itself
     for (let i = snakeBody.length - 1; i > 0; i--) {
         if (snakeX == snakeBody[i].x && snakeY == snakeBody[i].y) {
@@ -84,58 +105,74 @@ function update() {
             console.log("Snake hit itself");
         }
     }
+
     if (gameOver == true) {
         alert("Game Over! Refresh page to start over.");
     }
+
     // Save previous position of snake head for snake body
     let segmentX = snakeX;
     let segmentY = snakeY;
+
     // Snake movement
     switch (direction) {
         case "up":
             snakeY -= blockSize;
             break;
+
         case "down":
             snakeY += blockSize;
             break;
+
         case "right":
             snakeX += blockSize;
             break;
+
         case "left":
             snakeX -= blockSize;
             break;
     }
+
     // Update snake after body moves
     snakeHead.style.top = `${snakeY}px`;
     snakeHead.style.left = `${snakeX}px`;
-    function grow() {
+
+    function grow(): void {
         // Grow snake by eating food and adding segments
         if (snakeX == foodX && snakeY == foodY) {
             segment = document.createElement("div");
             segment.className = "snake";
+
             // Snake block size
             segment.style.height = snakeHead.style.height;
             segment.style.width = snakeHead.style.width;
+
             // Add new segment to snake body
             board.appendChild(segment);
             snakeBody.push({ x: segmentX, y: segmentY });
+
             generateFood();
         }
     }
+
     grow();
+
     // Move snake body
     for (let i = snakeBody.length - 1; i > 0; i--) {
         snakeBody[i].x = snakeBody[i - 1].x;
         snakeBody[i].y = snakeBody[i - 1].y;
     }
+
     if (snakeBody.length > 0) {
         snakeBody[1].x = segmentX;
         snakeBody[1].y = segmentY;
     }
+
     for (let i = 1; i < snakeBody.length; i++) {
-        segment = document.getElementsByClassName("snake")[i];
+        segment = document.getElementsByClassName("snake")[i] as unknown as HTMLCollectionOf<HTMLElement>;
         segment.style.top = `${snakeBody[i].y}px`;
         segment.style.left = `${snakeBody[i].x}px`;
     }
 }
+
 update();
