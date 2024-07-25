@@ -95,12 +95,7 @@ function update() {
     }
 
     // Collisions
-    if (
-        snakeX < 0 ||
-        snakeX >= col * blockSize ||
-        snakeY < 0 ||
-        snakeY >= row * blockSize
-    ) {
+    if (snakeX < 0 || snakeX >= col * blockSize || snakeY < 0 || snakeY >= row * blockSize) {
         gameOver = true;
     }
 
