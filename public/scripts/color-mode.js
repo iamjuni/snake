@@ -2,6 +2,7 @@
 // Instructions
 console.log("Get current color mode: getCurrentMode();");
 console.log("Change color mode: changeMode();");
+console.log("Save current mode: saveMode();");
 // Set current color mode
 class colorMode {
     mode;
@@ -48,3 +49,4 @@ const saveMode = () => {
         changeMode();
     }
 };
+saveMode();
