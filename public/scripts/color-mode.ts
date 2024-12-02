@@ -1,7 +1,6 @@
 // Instructions
 console.log("Get current color mode: getCurrentMode();");
-console.log("Change color mode: changeMode();");
-console.log("Save current mode: saveMode();");
+console.log("Change: changeMode();");
 
 // Set current color mode
 class colorMode {
@@ -54,8 +53,3 @@ function changeMode() {
 }
 
 // Keep current mode on after game restarts
-const saveMode = () => {
-  if (currentMode) {
-    changeMode();
-  }
-};
