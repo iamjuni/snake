@@ -1,39 +1,39 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 }
 
 #board {
-    position: absolute;
-    background-color: #87e82b;
-    border: 2px solid #000000;
+  position: absolute;
+  background-color: #87e82b;
+  border: 2px solid #000000;
 }
 
 /* Board items */
 .snake {
-    position: absolute;
-    background-color: #00bfff;
+  position: absolute;
+  background-color: #00bfff;
 }
 
 #food {
-    position: relative;
-    background-color: #ff4036;
+  position: relative;
+  background-color: #ff4036;
 }
 
 #snake-head {
-    background-color: #0099ff;
+  background-color: #0099ff;
 }
 
 /* Borders */
 .snake, #food, #snake-head {
-    border: 1px solid #000000;
+  border: 1px solid #000000;
 }
