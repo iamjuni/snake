@@ -1,6 +1,4 @@
 "use strict";
-import { saveMode } from "./color-mode";
-
 // Board variables
 let blockSize = 25;
 let col = 16;
@@ -68,7 +66,6 @@ window.onload = function () {
     generateFood();
     document.addEventListener("keydown", changeDirection); // Moving snake
     setInterval(update, 1000 / 10); // Snake speed
-    saveMode(); // Save changed color mode
 };
 // Update game
 function update() {
